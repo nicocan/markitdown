@@ -16,6 +16,7 @@ st.markdown("Convierte tus documentos a Markdown fácilmente.")
 uploaded_file = st.file_uploader("Sube un archivo", type=["pdf", "docx", "pptx", "xlsx", "jpg", "png", "mp3", "wav"])
 
 if uploaded_file is not None:
+    st.info(f"Archivo cargado: {uploaded_file.name} ({uploaded_file.size} bytes)")
     with st.spinner("Procesando archivo..."):
         try:
             # Save temp file
@@ -53,5 +54,7 @@ if uploaded_file is not None:
             # Cleanup
             os.remove(temp_path)
 
+        except ValueError as ve:
+            st.warning(f"Error de configuración: {ve}. ¿Has puesto la API Key?")
         except Exception as e:
-            st.error(f"Error en la conversión: {e}")
+            st.error(f"Error inesperado: {e}")
